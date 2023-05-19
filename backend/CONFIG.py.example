@@ -1,0 +1,28 @@
+# 生产模式
+productionMode = False
+# 服务器IP
+server_ip = "127.0.0.1"
+# 服务器端口
+server_port = 7890
+# 启用验证码
+geetestEnabled = True
+# 仅启用验证码后需要填写
+# 极验 验证ID（可在后台查询）
+geetestID = ""
+# 极验 验证Key（可在后台查询）
+geetestKey = ""
+# 短信功能必须启用，否则将影响正常使用
+# 腾讯云 SecretID
+tencentCloudSecretID = ""
+# 腾讯云 SecretKey
+tencentCloudSecretKey = ""
+# 短信应用ID
+smsAppSdkId = ""
+# 签名内容（要求审核过）
+signName = ""
+# 短信模板ID
+smsTemplateID = ""
+# MongoDB URL（包含mongodb://协议，以及用户名和密码）
+mongoURL = "mongodb://localhost:27017"
+# 数据库名
+mongoDBName = "muyupro"
