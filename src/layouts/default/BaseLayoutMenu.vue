@@ -47,6 +47,19 @@
             </v-card-text>
         </v-card>
     </v-dialog>
+    <v-dialog v-model="rankShowed">
+        <v-card>
+            <v-card-text>
+                <h2 class="text-h5" style="margin-bottom: 20px;">排行榜<v-btn @click="getRank" icon="mdi-refresh" variant="plain"></v-btn></h2>
+                <v-list-item variant="plain" v-for="(item, index) in rankList" :title="item.nick" :subtitle="item.point">
+                    <template v-slot:prepend>
+                        <h2 class="text-h5" :style="{'margin-right': '20px', 'color' : index + 1 == 1 ? '#ffa700' : index + 1 == 2 ? '#d2cd7e' : index + 1 == 3 ? '#d97000' : 'white'}">{{ index + 1 }}</h2>
+                        <v-avatar :image="item['avatar']"/>
+                    </template>
+                </v-list-item>
+            </v-card-text>
+        </v-card>
+    </v-dialog>
     <first-login :is-show="b" :phone-number="c"/>
 </template>
 
@@ -76,12 +89,24 @@ let isInTimeout = ref(false)
 let btnText = ref('发送验证码')
 let isLoading = ref(false)
 let captcha_public = ref(null)
+const rankShowed = ref(false)
 const err = ref(null)
 const isShow = ref(false)
 const phoneNumber = ref(null)
 const code = ref(null)
 const b = ref(false)
 const c = ref(0)
+const rankList = ref([])
+
+const getRank = () => {
+    rankList.value = []
+    Axios({
+        url: '/api/user/rank'
+    })
+    .then(function(Response){
+        rankList.value = Response['data']['data']
+    })
+}
 
 const menuItem = ref([
     {
@@ -123,6 +148,7 @@ const loginWithSMS = () => {
             isLoading.value = false
             if (Response['data']['code'] == 0){
                 ElMessage.success('登陆成功')
+                setTimeout(function(){window.location.reload()}, 100)
                 isShow.value = false;
             }
             else if(Response['data']['code'] == 1){
@@ -208,6 +234,10 @@ initGeetest4({
 const click = (key, navigation) => {
     if (navigation == '1'){
         isShow.value = true
+    }
+    if (navigation == '2'){
+        rankShowed.value = true
+        getRank()
     }
 }
 
